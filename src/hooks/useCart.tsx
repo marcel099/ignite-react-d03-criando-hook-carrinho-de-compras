@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { api } from '../services/api';
@@ -13,10 +13,6 @@ interface UpdateProductAmount {
   productId: number;
   amount: number;
 }
-
-// interface CartProduct extends Product {
-//   amount: number;
-// }
 
 interface CartContextData {
   cart: Product[];
