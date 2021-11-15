@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 
 import { api } from '../services/api';
 import { Product, Stock } from '../types';
-import { useProduct } from './useProduct';
 
 interface CartProviderProps {
   children: ReactNode;
@@ -24,8 +23,6 @@ interface CartContextData {
 const CartContext = createContext<CartContextData>({} as CartContextData);
 
 export function CartProvider({ children }: CartProviderProps): JSX.Element {
-  const { products } = useProduct();
-
   const [cart, setCart] = useState<Product[]>(() => {
     const storagedCart = localStorage.getItem('@RocketShoes:cart');
 
@@ -77,10 +74,12 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
         newCart[cartProductIndex] = updatedCartProduct;
       } else {
-        const productIndex = products.findIndex(product => product.id === productId);
+        const response = await api.get<Product>(`/products/${productId}`)
+
+        const product = response.data
 
         const newCartProduct = {
-          ...products[productIndex],
+          ...product,
           amount: newAmount,
         }
 
